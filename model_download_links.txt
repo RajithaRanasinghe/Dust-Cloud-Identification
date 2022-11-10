@@ -1,0 +1,3 @@
+FCN-Resnet101: https://drive.google.com/file/d/1GFhZq4qzGj-PXiZDlZf66goDAa_SzGMw/view?usp=share_link
+DeepLabV3-MobileNet-V3-Large : https://drive.google.com/file/d/1GEroYQmlq9HoxT-id8PyAaXLfg706GzE/view?usp=share_link
+Lraspp-MobileNet-V3-Large : https://drive.google.com/file/d/1GGO-SO9eMQdwxhA-4gYdoI0-5AmE3ryp/view?usp=share_link
