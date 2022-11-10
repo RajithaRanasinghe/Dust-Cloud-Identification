@@ -1,0 +1,50 @@
+/*Global Styles*/
+QLabel {
+    /*background-color: #FFFFFF;*/
+    /*qproperty-alignment: AlignCenter;*/
+    font: bold 18px;
+    
+}
+
+
+/* Specific Styles*/
+QComboBox#MODELCOMBO {
+    border:5px #93a1a1;
+    border-radius:6px;
+    padding:15px;
+    min-width:6em;
+    font: bold 20px;
+    /*font-size:20px;*/
+    
+}
+QPushButton#RUN {
+    background-color: green;
+    padding: 5px;
+    font: bold 30px;
+    height:25px;
+    width:150px;
+}
+QPushButton#LOADIMAGE {
+    background-color: #93a1a1;
+    padding: 5px;
+    font: bold 20px;
+    height:25px;
+    width:150px;
+}
+QPushButton#LOADVIDEO {
+    background-color: #93a1a1;
+    padding: 5px;
+    font: bold 20px;
+    height:25px;
+    width:150px;
+}
+QPushButton#ABOUT {
+    background-color: #93a1a1;
+    padding: 5px;
+    font: bold 20px;
+    height:25px;
+    width:150px;
+}
+
+
+

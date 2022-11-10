@@ -1,4 +1,4 @@
-from PySide2.QtCore import QRunnable, Slot, QThreadPool, QObject, Signal
+from PySide2.QtCore import QRunnable, Slot, QObject, Signal
 from torchvision.transforms import transforms
 import requests
 import torch
@@ -6,6 +6,7 @@ import cv2
 from PIL import Image
 import numpy as np
 import csv
+
 
 
 
@@ -26,6 +27,7 @@ class Network(QObject):
     progress = Signal(float)
     result = Signal(object)
     cycleStart = Signal()
+    message = Signal(str)
 
     def __init__(self, parameters):
         super(Network, self).__init__()
@@ -54,6 +56,7 @@ class Network(QObject):
         self.input_path = self.MyParameters['InputPath']
         self.csv_path = self.MyParameters['CSVPath']
         self.model_id = self.MyParameters['ModelID']
+        self.model_available = False
 
 
         csv_header = ['File Name', 'Model Name', 'Frame', 'Dust Pixel Ratio', 'PM30', 'PM10', 'PM4', 'PM2.5', 'PM1']
@@ -66,13 +69,23 @@ class Network(QObject):
 
         try:
             model.load_state_dict(torch.load(self.model_path))
+            self.model_available = True
         except:
-            response = requests.get(self.model_url)
-            open(self.trainedModel_name, "wb").write(response.content)
+            self.message.emit('Model Needs to be Downloaded')
+            #Downloading seems not working
+            '''
+            response = requests.get(self.model_url, stream=True)
+            with open(self.trainedModel_name, "wb") as f:
+                for chunk in response.iter_content(chunk_size= 10):
+                    f.write(chunk)
+
             #self.download_file_from_google_drive(self.model_id, '/Output')
             model.load_state_dict(torch.load(self.model_path))
+            self.model_available = True
+            '''
+        
 
-        if self.input_type == 'Video':
+        if self.input_type == 'Video' and self.model_available:
 
             vs = cv2.VideoCapture(self.input_path)
             _, frame = vs.read()
@@ -184,7 +197,7 @@ class Network(QObject):
             cap.release()
 
 
-        if self.input_type == 'Image':
+        if self.input_type == 'Image' and self.model_available:
             totalframecount = 1
             idx = 0
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -281,6 +294,7 @@ class Network(QObject):
 
 
         csv_file.close()
+
 
     def download_file_from_google_drive(self, id, destination):
         URL = "https://docs.google.com/uc?export=download"

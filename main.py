@@ -1,10 +1,9 @@
-from PySide2.QtGui import QPixmap,QPalette,QColor,QPainter, QPen, QBrush, QImage, QIcon, QIntValidator, QDoubleValidator
-from PySide2.QtWidgets import QWidget,QComboBox,QDialog, QCheckBox, QMessageBox, QFileDialog, QPushButton, QLineEdit, QProgressBar, QGridLayout, QHBoxLayout, QVBoxLayout, QApplication, QSplashScreen,QTabWidget,QMainWindow,QLabel,QAction,QStyleFactory,QDialogButtonBox,QStackedLayout
-from PySide2.QtCore import QTimer, Qt, QSize, QRunnable, Slot, QThreadPool, QObject, Signal
+from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import QWidget, QComboBox, QMessageBox, QFileDialog, QPushButton, QProgressBar, QHBoxLayout, QVBoxLayout, QApplication, QLabel, QStackedLayout
+from PySide2.QtCore import QThreadPool
 
-from datetime import datetime
+
 import os
-import csv
 import sys
 import numpy as np
 from PIL import Image
@@ -32,7 +31,7 @@ class DustIdentifier(QWidget):
         self.DIAGRAM_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)) + self.FOLDER_NAME, self.Init_diagram)
         self.setWindowIcon(QIcon(ICON_PATH))
 
-        self.Ml_ModelList = {'FCN-Resnet101' : fcn_resnet101, 'DeepLabV3-MobileNet-V3-Large' : deeplabv3_mobilenet_v3_large, 'Lraspp-MobileNet-V3-Large' : lraspp_mobilenet_v3_large}
+        self.Ml_ModelList = {'DeepLabV3-MobileNet-V3-Large' : deeplabv3_mobilenet_v3_large, 'Lraspp-MobileNet-V3-Large' : lraspp_mobilenet_v3_large, 'FCN-Resnet101' : fcn_resnet101, }
         self.Ml_TrainedModels = {'FCN-Resnet101' : 'FCN-Resnet101_dataset_897.pth', 'DeepLabV3-MobileNet-V3-Large' : 'DeepLabV3-MobileNet-V3-Large_dataset_897.pth', 'Lraspp-MobileNet-V3-Large' : 'Lraspp-MobileNet-V3-Large_dataset_897.pth'}
         self.Ml_TrainedModelURLs = {'FCN-Resnet101' : 'https://drive.google.com/file/d/1GFhZq4qzGj-PXiZDlZf66goDAa_SzGMw/view?usp=share_link', 'DeepLabV3-MobileNet-V3-Large' : 'https://drive.google.com/file/d/1GEroYQmlq9HoxT-id8PyAaXLfg706GzE/view?usp=share_link', 'Lraspp-MobileNet-V3-Large' : 'https://drive.google.com/file/d/1GGO-SO9eMQdwxhA-4gYdoI0-5AmE3ryp/view?usp=share_link'}
         self.Ml_TrainedModelIDs = {'FCN-Resnet101' : '1GFhZq4qzGj-PXiZDlZf66goDAa_SzGMw', 'DeepLabV3-MobileNet-V3-Large' : '1GEroYQmlq9HoxT-id8PyAaXLfg706GzE', 'Lraspp-MobileNet-V3-Large' : '1GGO-SO9eMQdwxhA-4gYdoI0-5AmE3ryp'}
@@ -54,6 +53,7 @@ class DustIdentifier(QWidget):
         worker.Network_inst.result.connect(self.show_view)
         worker.Network_inst.cycleStart.connect(self.clearView)
         worker.Network_inst.progress.connect(self.setProgress)
+        worker.Network_inst.message.connect(self.Notice)
         self.threadpool.start(worker)
 
     def initUI(self):
@@ -109,12 +109,12 @@ class DustIdentifier(QWidget):
     def createUIcomponents(self):
         #Controls
         self.OpenImage_btn = QPushButton("Load Image")
-        self.OpenImage_btn.setObjectName("OpenImage")
+        self.OpenImage_btn.setObjectName("LOADIMAGE")
         self.OpenImage_btn.clicked.connect(self.OpenImageFile)
 
 
         self.OpenVideo_btn = QPushButton("Load Video")
-        self.OpenVideo_btn.setObjectName("OpenVideo")
+        self.OpenVideo_btn.setObjectName("LOADVIDEO")
         self.OpenVideo_btn.clicked.connect(self.OpenVideoFile)
 
         self.Run_btn = QPushButton("RUN")
@@ -122,19 +122,25 @@ class DustIdentifier(QWidget):
         self.Run_btn.clicked.connect(self.Run)
 
         self.about_btn = QPushButton("About")
-        self.about_btn.setObjectName("About")
+        self.about_btn.setObjectName("ABOUT")
         self.about_btn.clicked.connect(self.aboutpressed)
 
         self.Model_label = QLabel("Select ML Model")
         self.Model_cbx = QComboBox()
+        self.Model_cbx.setObjectName('MODELCOMBO')
         for key in self.Ml_ModelList.keys():
             self.Model_cbx.addItem(key)
         self.Model_cbx.activated.connect(self.updateUI)
 
         self.InputType_label = QLabel("File Type = {}".format(self.parameters['InputType']))
+        self.InputType_label.setWordWrap(True)
         self.InputPath_label = QLabel("Input Path = {}".format(self.parameters['InputPath']))
+        self.InputPath_label.setWordWrap(True)
         self.OutputPath_label = QLabel("Output Path = {}".format(self.parameters['OutputPath']))
+        self.OutputPath_label.setWordWrap(True)
         self.ModelPath_label = QLabel("Model Path = {}".format(self.parameters['ModelPath']))
+        self.ModelPath_label.setWordWrap(True)
+
 
         #Progress Bar
         self.pbar = QProgressBar()
@@ -254,6 +260,12 @@ class DustIdentifier(QWidget):
 if __name__ == "__main__":
     sys.argv.append('--no-sandbox')
     app = QApplication(sys.argv)
+    app.setStyle('Fusion')
+    
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"style.qss"), "r") as f:
+        _style = f.read()
+        app.setStyleSheet(_style)
+    
     QApplication.processEvents()
     widget = DustIdentifier()
     app.setApplicationName("Dust Cloud Identifier")
