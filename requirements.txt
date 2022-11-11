@@ -1,3 +1,7 @@
 PySide2
-torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+numpy
+Pillow
 matplotlib
+opencv-python
+torch
+torchvision

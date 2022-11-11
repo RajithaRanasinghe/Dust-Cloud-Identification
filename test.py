@@ -35,7 +35,12 @@ class Network(QObject):
 
 
     def run(self):
-        model = self.MyParameters['Model'](pretrained=False, progress=True, num_classes=1, aux_loss=None)
+        try:
+            model = self.MyParameters['Model'](weights=None, progress=True, num_classes=1, aux_loss=None)
+            
+        except:
+            model = self.MyParameters['Model'](pretrained=False, progress=True, num_classes=1, aux_loss=None)
+            
         
         
         model.eval()
@@ -66,6 +71,9 @@ class Network(QObject):
         writer = csv.writer(csv_file)
         writer.writerow(csv_header)
 
+
+        model.load_state_dict(torch.load(self.model_path))
+        self.model_available = True
 
         try:
             model.load_state_dict(torch.load(self.model_path))
