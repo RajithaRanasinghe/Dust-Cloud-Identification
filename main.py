@@ -201,13 +201,14 @@ class DustIdentifier(QWidget):
 
         self.ModelPath_label.setText("Model Path = {}".format(self.parameters['ModelPath']))
 
-        OUTPUT_NAME = "output_" + self.parameters['ModelName'] + "_" + self.parameters['TrainedDataset'] + "_" + os.path.splitext(self.parameters['InputName'])[0]
+        OUTPUT_NAME = "output_" + self.parameters['ModelName'] + "_" + self.parameters['TrainedDataset'] + "_" + self.parameters['InputName']
         OUTPUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)) + self.Output_FOLDER, OUTPUT_NAME)
         self.parameters['OutputPath'] = OUTPUT_PATH
         self.OutputPath_label.setText("Output Path = {}".format(self.parameters['OutputPath']))
         self.parameters['Model'] = self.Ml_ModelList[self.parameters['ModelName']]
 
-        CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)) + self.Output_FOLDER, OUTPUT_NAME + '.csv')
+        OUTPUT_NAME2 = "output_" + self.parameters['ModelName'] + "_" + self.parameters['TrainedDataset'] + "_" + os.path.splitext(self.parameters['InputName'])[0]
+        CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)) + self.Output_FOLDER, OUTPUT_NAME2 + '.csv')
         self.parameters['CSVPath'] = CSV_PATH
 
     def OpenVideoFile(self):
