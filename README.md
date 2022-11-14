@@ -2,6 +2,7 @@
  Dust Cloud Identification Widget can be used to identify and approximately quantify dust clouds emitted by traffic.
  
 ## Windows executale can be downloaded from [This Link](https://drive.google.com/file/d/1GGVB_ZlTiSvwBBibxIPIDCeZ-qNZbKgj/view?usp=share_link)
+Test Environment : Ryzen 9 5900HX, RAM 32GB, Nvidia RTX3080 Mobile 32GB
 
  
 ## Step 1 : Load Image or Video you want to segmentate dust
