@@ -72,7 +72,13 @@ class Network(QObject):
         writer.writerow(csv_header)
 
 
-        model.load_state_dict(torch.load(self.model_path))
+        if torch.cuda.is_available():
+
+            model.load_state_dict(torch.load(self.model_path))
+        else:
+
+            model.load_state_dict(torch.load(self.model_path, map_location='cpu'))
+
         self.model_available = True
 
         try:
@@ -237,7 +243,7 @@ class Network(QObject):
 
             invmask = mask.copy()
             invmask = abs(mask - 1)
-            combine_frame = np.asanyarray(ori_frame)
+            combine_frame = np.asanyarray(ori_frame).copy()
 
             print(type(ori_frame))
 
@@ -296,6 +302,9 @@ class Network(QObject):
             idx += 1
             pgr = (idx / totalframecount) * 100
             self.progress.emit(pgr)
+
+            im = Image.fromarray(combine_frame)
+            im.save(self.output_path)
 
             print('All Done')
 
