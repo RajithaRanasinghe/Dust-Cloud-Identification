@@ -67,7 +67,7 @@ class Network(QObject):
         csv_header = ['File Name', 'Model Name', 'Frame', 'Dust Pixel Ratio', 'PM30', 'PM10', 'PM4', 'PM2.5', 'PM1']
 
         print(self.csv_path)
-        csv_file = open(self.csv_path, 'w')
+        csv_file = open(self.csv_path, 'w', newline='')
         writer = csv.writer(csv_file)
         writer.writerow(csv_header)
 
@@ -164,11 +164,18 @@ class Network(QObject):
 
                 #print('total = {:.1f} dust = {:.1f}'.format(total_pixels,dust_pixel))
                 dustRatio = (dust_pixel/total_pixels)*100
-                pm30 = 0.675 * (dustRatio) + 2.7967
-                pm10 = 0.6764 * (dustRatio) + 2.0064
-                pm4 = 0.5385 * (dustRatio) + 1.1539
-                pm2_5 = 0.4709 * (dustRatio) + 0.9569
-                pm1 = 0.4501 * (dustRatio) + 0.9037
+                if dustRatio > 0.09:
+                    pm30 = 0.675 * (dustRatio) + 2.7967
+                    pm10 = 0.6764 * (dustRatio) + 2.0064
+                    pm4 = 0.5385 * (dustRatio) + 1.1539
+                    pm2_5 = 0.4709 * (dustRatio) + 0.9569
+                    pm1 = 0.4501 * (dustRatio) + 0.9037
+                else:
+                    pm30 = 0
+                    pm10 = 0
+                    pm4 = 0
+                    pm2_5 = 0
+                    pm1 = 0
 
 
                 csv_data = [self.input_name, self.model_name, idx, dustRatio, pm30, pm10, pm4, pm2_5, pm1]
@@ -258,11 +265,18 @@ class Network(QObject):
 
             #print('total = {:.1f} dust = {:.1f}'.format(total_pixels,dust_pixel))
             dustRatio = (dust_pixel/total_pixels)*100
-            pm30 = 0.675 * (dustRatio) + 2.7967
-            pm10 = 0.6764 * (dustRatio) + 2.0064
-            pm4 = 0.5385 * (dustRatio) + 1.1539
-            pm2_5 = 0.4709 * (dustRatio) + 0.9569
-            pm1 = 0.4501 * (dustRatio) + 0.9037
+            if dustRatio > 0.09:
+                pm30 = 0.675 * (dustRatio) + 2.7967
+                pm10 = 0.6764 * (dustRatio) + 2.0064
+                pm4 = 0.5385 * (dustRatio) + 1.1539
+                pm2_5 = 0.4709 * (dustRatio) + 0.9569
+                pm1 = 0.4501 * (dustRatio) + 0.9037
+            else:
+                pm30 = 0
+                pm10 = 0
+                pm4 = 0
+                pm2_5 = 0
+                pm1 = 0
 
 
             csv_data = [self.input_name, self.model_name, idx, dustRatio, pm30, pm10, pm4, pm2_5, pm1]
