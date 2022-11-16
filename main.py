@@ -35,7 +35,7 @@ class DustIdentifier(QWidget):
         self.Ml_TrainedModels = {'FCN-Resnet101' : 'FCN-Resnet101_dataset_897.pth', 'DeepLabV3-MobileNet-V3-Large' : 'DeepLabV3-MobileNet-V3-Large_dataset_897.pth', 'Lraspp-MobileNet-V3-Large' : 'Lraspp-MobileNet-V3-Large_dataset_897.pth'}
         self.Ml_TrainedModelURLs = {'FCN-Resnet101' : 'https://drive.google.com/file/d/1GFhZq4qzGj-PXiZDlZf66goDAa_SzGMw/view?usp=share_link', 'DeepLabV3-MobileNet-V3-Large' : 'https://drive.google.com/file/d/1GEroYQmlq9HoxT-id8PyAaXLfg706GzE/view?usp=share_link', 'Lraspp-MobileNet-V3-Large' : 'https://drive.google.com/file/d/1GGO-SO9eMQdwxhA-4gYdoI0-5AmE3ryp/view?usp=share_link'}
         self.Ml_TrainedModelIDs = {'FCN-Resnet101' : '1GFhZq4qzGj-PXiZDlZf66goDAa_SzGMw', 'DeepLabV3-MobileNet-V3-Large' : '1GEroYQmlq9HoxT-id8PyAaXLfg706GzE', 'Lraspp-MobileNet-V3-Large' : '1GGO-SO9eMQdwxhA-4gYdoI0-5AmE3ryp'}
-        self.parameters = {'InputPath':'', 'InputType':'', 'InputName':'', 'ModelInputSize':256, 'OutputPath':'', 'CSVPath':'', 'TrainedDataset':'URDE_dataset_100', 'Model':0, 'ModelName':'', 'ModelPath':'', 'ModelURL':'', 'TrainedModel':'', 'ModelID':''}
+        self.parameters = {'InputPath':'', 'InputType':'', 'InputName':'', 'ModelInputSize':256, 'OutputPath':'', 'CSVPath':'', 'TrainedDataset':'URDE_dataset_897', 'Model':0, 'ModelName':'', 'ModelPath':'', 'ModelURL':'', 'TrainedModel':'', 'ModelID':''}
         
 
         self.threadpool = QThreadPool()
