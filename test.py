@@ -64,9 +64,9 @@ class Network(QObject):
         self.model_available = False
 
 
-        csv_header = ['File Name', 'Model Name', 'Frame', 'Dust Pixel Ratio', 'PM30', 'PM10', 'PM4', 'PM2.5', 'PM1']
 
-        print(self.csv_path)
+        csv_header = ['File Name', 'Model Name', 'Frame', 'Dust Pixel Ratio', 'PM1', 'PM2.5', 'PM4', 'PM10', 'PM30']
+
         csv_file = open(self.csv_path, 'w', newline='')
         writer = csv.writer(csv_file)
         writer.writerow(csv_header)
@@ -107,7 +107,7 @@ class Network(QObject):
             vs.release()
 
             fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
-            out = cv2.VideoWriter(self.output_path, fourcc, 24, (W, H), True)
+            out = cv2.VideoWriter(self.output_path, fourcc, 25, (W, H), True)
 
             cap = cv2.VideoCapture(self.input_path)
             totalframecount= int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -178,10 +178,12 @@ class Network(QObject):
                     pm1 = 0
 
 
-                csv_data = [self.input_name, self.model_name, idx, dustRatio, pm30, pm10, pm4, pm2_5, pm1]
+
+                csv_data = [self.input_name, self.model_name, idx, dustRatio, pm1, pm2_5, pm4, pm10, pm30]
                 writer.writerow(csv_data)
 
                 dust_data = ['PM30 = {:.1f}'.format(pm30), 'PM10 = {:.1f}'.format(pm10), 'PM4 = {:.1f}'.format(pm4),'PM2.5 = {:.1f}'.format(pm2_5),'PM1 = {:.1f}'.format(pm1)]
+                
                 
                 i = 0
                 for data in dust_data:
@@ -279,7 +281,7 @@ class Network(QObject):
                 pm1 = 0
 
 
-            csv_data = [self.input_name, self.model_name, idx, dustRatio, pm30, pm10, pm4, pm2_5, pm1]
+            csv_data = [self.input_name, self.model_name, idx, dustRatio, pm1, pm2_5, pm4, pm10, pm30]
             writer.writerow(csv_data)
 
             dust_data = ['PM30 = {:.1f}'.format(pm30), 'PM10 = {:.1f}'.format(pm10), 'PM4 = {:.1f}'.format(pm4),'PM2.5 = {:.1f}'.format(pm2_5),'PM1 = {:.1f}'.format(pm1)]
