@@ -196,7 +196,7 @@ class Network(QObject):
                         cv2.LINE_4)
                     i+= 50
                 
-                model_data = ['Model = {}'.format(self.model_name), self.dataset_name, 'Dust Pixel Ratio% = {:.1f}'.format(dustRatio)]
+                model_data = ['Model = {}'.format(self.model_name), self.dataset_name, 'Dust Pixel Ratio% = {:.6f}'.format(dustRatio)]
                 
                 for data in model_data:
                     cv2.putText(combine_frame, 
