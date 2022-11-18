@@ -139,6 +139,7 @@ class Network(QObject):
 
                 #Dust Probability clip   
                 #mask = mask > 0.99
+                #mask = mask > 0.01
 
 
                 mask = mask.detach().cpu().numpy()       
@@ -148,9 +149,15 @@ class Network(QObject):
 
                 
                 dust_array.append(np.sum(mask))
+                max = np.max(mask)
 
-                invmask = mask.copy()
-                invmask = abs(mask - 1)
+                m2 = mask.copy()
+
+                #Enhance dut visibility by normalizing
+                #m2 = m2 / max
+
+
+                invmask = abs(m2 - 1)
                 combine_frame = ori_frame
 
                 combine_frame[:,:,1] = combine_frame[:,:,1] * invmask[:,:,0]
@@ -164,18 +171,28 @@ class Network(QObject):
 
                 #print('total = {:.1f} dust = {:.1f}'.format(total_pixels,dust_pixel))
                 dustRatio = (dust_pixel/total_pixels)*100
+                #dustRatio = (dust_pixel/total_pixels)
+
+
+                pm30 = 0
+                pm10 = 3.2 * (dustRatio)**2 - 1.5 * (dustRatio) + 0.003
+                pm4 = 0
+                pm2_5 = 0
+                pm1 = 0
+                '''
                 if dustRatio > 0.09:
-                    pm30 = 0.675 * (dustRatio) + 2.7967
-                    pm10 = 0.6764 * (dustRatio) + 2.0064
-                    pm4 = 0.5385 * (dustRatio) + 1.1539
-                    pm2_5 = 0.4709 * (dustRatio) + 0.9569
-                    pm1 = 0.4501 * (dustRatio) + 0.9037
+                    #pm30 = 0.675 * (dustRatio) + 2.7967
+                    pm10 = 0.4481 * (dustRatio)**3 + 1.2144 * (dustRatio)**2 + 1.5662 * (dustRatio) + 0.1857
+                    #pm4 = 0.5385 * (dustRatio) + 1.1539
+                    #pm2_5 = 0.4709 * (dustRatio) + 0.9569
+                    #pm1 = 0.4501 * (dustRatio) + 0.9037
                 else:
-                    pm30 = 0
+                    #pm30 = 0
                     pm10 = 0
-                    pm4 = 0
-                    pm2_5 = 0
-                    pm1 = 0
+                    #pm4 = 0
+                    #pm2_5 = 0
+                    #pm1 = 0
+                '''
 
 
 
