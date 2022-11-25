@@ -264,6 +264,7 @@ class Network(QObject):
 
             #Dust Probability clip   
             #mask = mask > 0.99
+            mask = mask > 0.05
 
             mask = mask.detach().cpu().numpy()       
             mask = mask.astype(np.float32)
