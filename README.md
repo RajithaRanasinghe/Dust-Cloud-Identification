@@ -65,4 +65,7 @@ cxfreeze -c main.py --icon=icon.ico --target-dir dist --packages=torch --target-
 python main.py
 ```
 
+## Research Paper:
+[Beyond Conventional Monitoring: A Semantic Segmentation Approach to Quantifying Traffic-Induced Dust on Unsealed Roads](https://www.mdpi.com/2637708)
+
 
